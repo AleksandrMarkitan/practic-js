@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Page title</title>
     <!-- <link rel="stylesheet" href="./sass/index.scss" /> -->
-    <script type="module" src="./index.js"></script>
   </head>
   <body>
+    <input type="text" name="name" />
+
+    <input type="radio" name="filter" id="model" checked />
+    <label for="model">model</label>
+    <input type="radio" name="filter" id="brand" />
+    <label for="brand">brand</label>
+
+    <button>sort price</button>
+    <button>sort name</button>
     <!-- ❗️❗️❗️ Add partials like so for every page -->
     <!-- <include src="./partials/example.html"></include> -->
     <ul class="list"></ul>
+    <script type="module" src="./31-08.js"></script>
   </body>
 </html>
