@@ -1,4 +1,4 @@
-import _debounce, { debounce } from 'debounce';
+import { debounce } from 'debounce';
 const cars = [
   {
     car: 'Honda',
@@ -32,26 +32,43 @@ const cars = [
   },
 ];
 const newItems = document.querySelector('.list');
+const SORTED_KEY = 'sorted';
+const input = document.querySelector('input');
 
 function newList(array) {
-  const listElement = array
-    .map(({ car, type, price, img }) => {
-      return `<li>
+  if (array.length) {
+    const listElement = array
+      .map(({ car, type, price, img }) => {
+        return `<li>
       <img src="${img}" alt="" width='300'>
       <p class="name">${car}</p>
       <p class="type">${type}</p>
       <p class="price">${price}</p>
     </li>`;
-    })
-    .join('');
-  return listElement;
+      })
+      .join('');
+    return listElement;
+  } else {
+    return `<li><img src='https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg' width="400"></li>`;
+  }
 }
-newItems.innerHTML = newList(cars);
+try {
+  const storageData = localStorage.getItem(SORTED_KEY);
+  if (!storageData) {
+    throw new Error();
+  }
+  if (storageData === 'by_price') {
+    sortByPrice();
+  } else {
+    sortByName();
+  }
+} catch (e) {
+} finally {
+  newItems.innerHTML = newList(cars);
+}
 
-const input = document.querySelector('input');
-
-input.addEventListener('input', _debounce(inputListener, 1000));
-
+input.addEventListener('input', debounce(inputListener, 1000));
+const SEARCH_KEY = 'inputsearch';
 function inputListener(e) {
   console.log(e.target.value);
   const currentRadioButton = document.querySelector('input[type="radio"]');
@@ -71,4 +88,33 @@ function inputListener(e) {
     console.log(filteredCars);
   }
   newItems.innerHTML = newList(filteredCars);
+  localStorage.setItem(SEARCH_KEY, JSON.stringify(filteredCars));
+}
+
+const lastSearch = document.querySelector('.lastsearch');
+
+lastSearch.addEventListener('click', getFromLocale);
+
+function getFromLocale(e) {
+  try {
+    const oldSearch = JSON.parse(localStorage.getItem(SEARCH_KEY));
+    newItems.innerHTML = newList(oldSearch);
+  } catch (e) {}
+}
+
+const sortPrice = document.querySelector('.sort_price');
+const sortName = document.querySelector('.sort_name');
+
+sortPrice.addEventListener('click', sortByPrice);
+sortName.addEventListener('click', sortByName);
+
+function sortByPrice(e) {
+  cars.sort((a, b) => a.price - b.price);
+  newItems.innerHTML = newList(cars);
+  localStorage.setItem(SORTED_KEY, 'by_price');
+}
+function sortByName(e) {
+  cars.sort((a, b) => a.car.localeCompare(b.car));
+  newItems.innerHTML = newList(cars);
+  localStorage.setItem(SORTED_KEY, 'by_name');
 }
