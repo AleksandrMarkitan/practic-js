@@ -1,0 +1,26 @@
+.clock-hours__arrow {
+  bottom: 50%;
+  left: 50%;
+  width: 12px;
+  height: 24%;
+}
+.date {
+  width: 100px;
+  height: 100px;
+  color: black;
+}
+.calendar {
+  display: flex;
+  justify-content: space-between;
+}
+.date-style {
+  display: flex;
+  font-size: 40px;
+  font-weight: 900;
+  text-shadow: 3px 3px 2px #cecbcd;
+}
+.digital-clock {
+  text-align: center;
+  font-size: 60px;
+  text-shadow: 3px 3px 2px #cecbcd;
+}
