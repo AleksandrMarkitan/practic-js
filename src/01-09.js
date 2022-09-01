@@ -4,6 +4,10 @@ const monthRef = document.querySelector('.date-month');
 const yearRef = document.querySelector('.date-year');
 const timeRef = document.querySelector('.digital-clock');
 
+const clockSecondsArrow = document.querySelector(".clock-seconds__arrow")
+const clockMinutesArrow = document.querySelector(".clock-minutes__arrow")
+const clockHouresArrow = document.querySelector(".clock-hours__arrow")
+
 const namesOfDay = [
   'Неділя',
   'Понеділок',
@@ -29,43 +33,47 @@ const namesOfMonth = [
   'Грудень',
 ];
 
-function setDate() {
+function displayDate() {
   const currentDate = new Date();
-  setDay(currentDate);
-  setDayOfMonth(currentDate);
-  setMonth(currentDate);
-  setYear(currentDate);
-  setTime(currentDate);
+  displayDay(currentDate);
+  displayDayOfMonth(currentDate);
+  displayMonth(currentDate);
+  displayYear(currentDate);
+  displayTime(currentDate);
 }
 
-function setDay(currentDate) {
+function displayDay(currentDate) {
   const currentDay = currentDate.getDay();
   dayRef.textContent = namesOfDay[currentDay];
 }
 
-function setDayOfMonth(currentDate) {
+function displayDayOfMonth(currentDate) {
   const currentDayOfMonth = currentDate.getDate();
   dayOfMonthRef.textContent = currentDayOfMonth;
 }
 
-function setMonth(currentDate) {
+function displayMonth(currentDate) {
   const currentMonth = currentDate.getMonth();
   monthRef.textContent = namesOfMonth[currentMonth];
 }
 
-function setYear(currentDate) {
+function displayYear(currentDate) {
   const currentYear = currentDate.getFullYear();
   yearRef.textContent = currentYear;
 }
 
-function setTime(currentDate) {
-  const currentHours = currentDate.getHours().toString();
-  const currentMinutes = currentDate.getMinutes().toString();
-  const currentSeconds = `${currentDate.getSeconds()}`;
-  timeRef.textContent = `Поточний час: ${currentHours.padStart(
+function displayTime(currentDate) {
+  const currentHours = currentDate.getHours();
+  const currentMinutes = currentDate.getMinutes();
+  const currentSeconds = currentDate.getSeconds();
+  timeRef.textContent = `Поточний час: ${currentHours.toString().padStart(
     2,
     '0'
-  )} : ${currentMinutes.padStart(2, '0')} : ${currentSeconds.padStart(2, '0')}`;
+  )} : ${currentMinutes.toString().padStart(2, '0')} : ${currentSeconds.toString().padStart(2, '0')}`;
+
+  clockSecondsArrow.style.transform =`rotate( ${currentSeconds*6}deg)`
+  clockMinutesArrow.style.transform =`rotate( ${currentMinutes*6}deg)`
+  clockHouresArrow.style.transform =`rotate( ${currentHours*30+currentMinutes*0.33}deg)`
 }
 
-setInterval(setDate, 1000);
+setInterval(displayDate, 1000);
